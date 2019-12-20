@@ -1,6 +1,6 @@
 extends Polygon2D
 
-const max_speed = 2
+const max_speed = 0.5
 
 var x_speed
 var y_speed
@@ -14,14 +14,16 @@ func _ready():
 func set_desired_size(size):
 	desired_x_size = size.x
 	desired_y_size = size.y
-	var x_min_time = (desired_x_size - (2 * polygon[1].x)) / max_speed
-	var y_min_time = (desired_y_size - (2 * polygon[1].y)) / max_speed
+	var x_min_time = abs(desired_x_size - polygon[1].x) / max_speed
+	var y_min_time = abs(desired_y_size - polygon[1].y) / max_speed
 	if(x_min_time > y_min_time):
 		x_speed = max_speed
-		y_speed = (desired_y_size - (2 * polygon[1].y)) / x_min_time
+		y_speed = abs(desired_y_size - polygon[1].y) / x_min_time
 	else:
-		x_speed = (desired_x_size - (2 * polygon[1].x)) / y_min_time
+		x_speed = abs(desired_x_size - polygon[1].x) / y_min_time
 		y_speed = max_speed
+		print(y_speed)
+		print(x_speed)
 
 func _process(delta):
 	change_x_positions()
